@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Bounded circular ripple for the chant button -->
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
     android:color="#60D4AF37">
+    <!-- Mask clips ripple to oval shape -->
+    <item android:id="@android:id/mask" android:drawable="@drawable/bg_count_button" />
     <item android:drawable="@drawable/bg_count_button" />
 </ripple>

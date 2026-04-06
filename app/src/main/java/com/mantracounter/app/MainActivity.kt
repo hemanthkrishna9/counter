@@ -3,6 +3,8 @@ package com.mantracounter.app
 import android.Manifest
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
+import android.app.TimePickerDialog
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
@@ -19,6 +21,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.mantracounter.app.databinding.ActivityMainBinding
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,12 +32,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var prefs: SharedPreferences
     private var count = 0
 
+    // ---- Image picker ----
     private val pickImage = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         uri?.let {
             try {
                 contentResolver.takePersistableUriPermission(
-                    it,
-                    android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    it, android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION
                 )
             } catch (_: Exception) {}
             applyDeityImage(it)
@@ -39,12 +45,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private val requestPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
-        if (granted) {
-            pickImage.launch("image/*")
-        } else {
-            Toast.makeText(this, getString(R.string.permission_needed), Toast.LENGTH_SHORT).show()
-        }
+    private val requestStoragePermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+        if (granted) pickImage.launch("image/*")
+        else Toast.makeText(this, getString(R.string.permission_needed), Toast.LENGTH_SHORT).show()
+    }
+
+    // ---- Notification permission (API 33+) ----
+    private val requestNotifPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+        if (granted) showTimePickerForReminder()
+        else Toast.makeText(this, getString(R.string.notif_permission_needed), Toast.LENGTH_SHORT).show()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,32 +62,30 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         prefs = getSharedPreferences("mantra_prefs", Context.MODE_PRIVATE)
+        ReminderReceiver.ensureNotificationChannel(this)
 
-        // Restore saved state
+        // Restore count and streak
         count = prefs.getInt("count", 0)
         updateCountDisplay(animate = false)
+        binding.tvStreakDays.text = prefs.getInt("streak_days", 0).toString()
 
         // Restore deity image
         prefs.getString("image_uri", null)?.let { uriStr ->
-            try {
-                applyDeityImage(Uri.parse(uriStr))
-            } catch (_: Exception) {}
+            try { applyDeityImage(Uri.parse(uriStr)) } catch (_: Exception) {}
         }
 
-        // Start pulse animation on ring
         startPulseAnimation()
 
-        // === CLICK HANDLERS ===
+        // ===== CLICK HANDLERS =====
 
         binding.btnCount.setOnClickListener {
             count++
+            incrementStreakIfNeeded()
             updateCountDisplay(animate = true)
             prefs.edit().putInt("count", count).apply()
             it.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
             animateButton(it)
-
-            // Celebrate mala completion
-            if (count % 108 == 0 && count > 0) {
+            if (count % 108 == 0) {
                 Toast.makeText(this, getString(R.string.mala_complete), Toast.LENGTH_SHORT).show()
             }
         }
@@ -88,9 +95,7 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-        binding.btnReset.setOnClickListener {
-            showResetDialog()
-        }
+        binding.btnReset.setOnClickListener { showResetDialog() }
 
         binding.btnMinusOne.setOnClickListener {
             if (count > 0) {
@@ -101,14 +106,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        binding.btnChangePhoto.setOnClickListener {
-            requestImagePermissionAndPick()
-        }
-
-        // Tapping the card also opens picker
-        binding.cardImage.setOnClickListener {
-            requestImagePermissionAndPick()
-        }
+        binding.btnChangePhoto.setOnClickListener { requestImagePermissionAndPick() }
+        binding.cardImage.setOnClickListener { requestImagePermissionAndPick() }
 
         binding.btnClearImage.setOnClickListener {
             binding.ivGoddess.setImageDrawable(null)
@@ -116,7 +115,125 @@ class MainActivity : AppCompatActivity() {
             binding.layoutUploadHint.visibility = View.VISIBLE
             prefs.edit().remove("image_uri").apply()
         }
+
+        binding.btnReminder.setOnClickListener { onReminderClicked() }
     }
+
+    // ===== STREAK =====
+
+    private fun incrementStreakIfNeeded() {
+        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val today = sdf.format(Date())
+        val lastChantDate = prefs.getString("last_chant_date", null)
+        var streak = prefs.getInt("streak_days", 0)
+
+        // Already counted today — no change
+        if (lastChantDate == today) return
+
+        streak = when {
+            lastChantDate == null -> 1
+            else -> {
+                val yesterday = Calendar.getInstance().apply { add(Calendar.DAY_OF_YEAR, -1) }
+                if (lastChantDate == sdf.format(yesterday.time)) streak + 1 else 1
+            }
+        }
+
+        prefs.edit()
+            .putString("last_chant_date", today)
+            .putInt("streak_days", streak)
+            .apply()
+
+        binding.tvStreakDays.text = streak.toString()
+    }
+
+    // ===== REMINDER =====
+
+    private fun onReminderClicked() {
+        val hasReminder = prefs.getInt("reminder_hour", -1) != -1
+        if (hasReminder) {
+            showReminderOptionsDialog()
+        } else {
+            requestNotifAndShowPicker()
+        }
+    }
+
+    private fun showReminderOptionsDialog() {
+        val hour = prefs.getInt("reminder_hour", 7)
+        val minute = prefs.getInt("reminder_minute", 0)
+        val timeStr = String.format(Locale.getDefault(), "%02d:%02d", hour, minute)
+
+        AlertDialog.Builder(this, R.style.Theme_MantraCounter_Dialog)
+            .setTitle(getString(R.string.set_reminder))
+            .setMessage(getString(R.string.reminder_set, timeStr))
+            .setPositiveButton(getString(R.string.change_photo).replace("Photo", "Time")) { _, _ ->
+                requestNotifAndShowPicker()
+            }
+            .setNeutralButton(getString(R.string.cancel_reminder)) { _, _ ->
+                cancelReminder()
+            }
+            .setNegativeButton(getString(R.string.cancel), null)
+            .show()
+    }
+
+    private fun requestNotifAndShowPicker() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                == PackageManager.PERMISSION_GRANTED) {
+                showTimePickerForReminder()
+            } else {
+                requestNotifPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        } else {
+            showTimePickerForReminder()
+        }
+    }
+
+    private fun showTimePickerForReminder() {
+        val hour = prefs.getInt("reminder_hour", 7)
+        val minute = prefs.getInt("reminder_minute", 0)
+
+        TimePickerDialog(this, { _, h, m ->
+            scheduleReminder(h, m)
+        }, hour, minute, false).also {
+            it.setTitle(getString(R.string.reminder_dialog_title))
+            it.show()
+        }
+    }
+
+    private fun scheduleReminder(hour: Int, minute: Int) {
+        val cal = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, hour)
+            set(Calendar.MINUTE, minute)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+            if (timeInMillis <= System.currentTimeMillis()) {
+                add(Calendar.DAY_OF_YEAR, 1)
+            }
+        }
+
+        prefs.edit()
+            .putInt("reminder_hour", hour)
+            .putInt("reminder_minute", minute)
+            .apply()
+
+        ReminderReceiver.scheduleAlarm(this, cal.timeInMillis)
+
+        val timeStr = String.format(Locale.getDefault(), "%02d:%02d", hour, minute)
+        Toast.makeText(this, getString(R.string.reminder_set, timeStr), Toast.LENGTH_SHORT).show()
+        binding.btnReminder.alpha = 1.0f  // highlight bell as active
+    }
+
+    private fun cancelReminder() {
+        ReminderReceiver.cancelAlarm(this)
+        prefs.edit()
+            .remove("reminder_hour")
+            .remove("reminder_minute")
+            .apply()
+        Toast.makeText(this, getString(R.string.reminder_cancelled), Toast.LENGTH_SHORT).show()
+        binding.btnReminder.alpha = 0.8f
+    }
+
+    // ===== UI =====
 
     private fun applyDeityImage(uri: Uri) {
         binding.ivGoddess.setImageURI(uri)
@@ -125,72 +242,66 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun requestImagePermissionAndPick() {
-        val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
             Manifest.permission.READ_MEDIA_IMAGES
-        } else {
+        else
             Manifest.permission.READ_EXTERNAL_STORAGE
-        }
-        if (ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED) {
+
+        if (ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED)
             pickImage.launch("image/*")
-        } else {
-            requestPermission.launch(permission)
-        }
+        else
+            requestStoragePermission.launch(permission)
     }
 
     private fun updateCountDisplay(animate: Boolean) {
         val malasDone = count / 108
-        val beadsInCurrentMala = count % 108
+        val beadsInMala = count % 108
 
         binding.tvCount.text = count.toString()
         binding.tvTotalCount.text = count.toString()
         binding.tvMalaCount.text = malasDone.toString()
-        binding.tvMalaProgress.text = "$beadsInCurrentMala / 108"
-        binding.malaProgressView.progress = beadsInCurrentMala
+        binding.tvMalaProgress.text = "$beadsInMala / 108"
+        binding.malaProgressView.progress = beadsInMala
 
         if (animate) {
-            val anim = AnimationUtils.loadAnimation(this, R.anim.count_bounce)
-            binding.tvCount.startAnimation(anim)
+            binding.tvCount.startAnimation(
+                AnimationUtils.loadAnimation(this, R.anim.count_bounce)
+            )
         }
     }
 
     private fun animateButton(view: View) {
-        val scaleDownX = ObjectAnimator.ofFloat(view, "scaleX", 1f, 0.90f)
-        val scaleDownY = ObjectAnimator.ofFloat(view, "scaleY", 1f, 0.90f)
-        val scaleUpX = ObjectAnimator.ofFloat(view, "scaleX", 0.90f, 1f)
-        val scaleUpY = ObjectAnimator.ofFloat(view, "scaleY", 0.90f, 1f)
-
-        scaleDownX.duration = 60
-        scaleDownY.duration = 60
-        scaleUpX.duration = 150
-        scaleUpY.duration = 150
-        scaleUpX.interpolator = OvershootInterpolator(2f)
-        scaleUpY.interpolator = OvershootInterpolator(2f)
-
+        val downX = ObjectAnimator.ofFloat(view, "scaleX", 1f, 0.90f).apply { duration = 60 }
+        val downY = ObjectAnimator.ofFloat(view, "scaleY", 1f, 0.90f).apply { duration = 60 }
+        val upX = ObjectAnimator.ofFloat(view, "scaleX", 0.90f, 1f).apply {
+            duration = 150; interpolator = OvershootInterpolator(2f)
+        }
+        val upY = ObjectAnimator.ofFloat(view, "scaleY", 0.90f, 1f).apply {
+            duration = 150; interpolator = OvershootInterpolator(2f)
+        }
         AnimatorSet().apply {
-            play(scaleDownX).with(scaleDownY)
-            play(scaleUpX).with(scaleUpY).after(scaleDownX)
+            play(downX).with(downY)
+            play(upX).with(upY).after(downX)
             start()
         }
     }
 
     private fun startPulseAnimation() {
         val ring = binding.viewPulseRing
-
-        val scaleX = ObjectAnimator.ofFloat(ring, "scaleX", 1f, 1.12f, 1f)
-        val scaleY = ObjectAnimator.ofFloat(ring, "scaleY", 1f, 1.12f, 1f)
-        val alpha = ObjectAnimator.ofFloat(ring, "alpha", 0.5f, 0.15f, 0.5f)
-
-        scaleX.duration = 1800
-        scaleY.duration = 1800
-        alpha.duration = 1800
-
-        AnimatorSet().apply {
-            play(scaleX).with(scaleY).with(alpha)
+        // Use infinite ValueAnimator — no memory leak from postDelayed loops
+        ValueAnimator.ofFloat(0f, 1f).apply {
+            duration = 1800
+            repeatCount = ValueAnimator.INFINITE
+            repeatMode = ValueAnimator.RESTART
+            addUpdateListener { anim ->
+                val fraction = anim.animatedFraction
+                val scale = 1f + 0.12f * Math.sin(fraction * Math.PI).toFloat()
+                ring.scaleX = scale
+                ring.scaleY = scale
+                ring.alpha = 0.5f - 0.35f * fraction
+            }
             start()
         }
-
-        // Repeat
-        ring.postDelayed({ startPulseAnimation() }, 1800)
     }
 
     private fun showResetDialog() {

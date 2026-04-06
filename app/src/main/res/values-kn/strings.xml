@@ -11,6 +11,9 @@
     <string name="count_label">ಎಣಿಕೆ</string>
     <string name="total_label">ಒಟ್ಟು</string>
     <string name="mala_label">ಮಾಲೆ</string>
+    <string name="streak_label">ಸರಣಿ</string>
+    <string name="days_label">ದಿನಗಳು</string>
+    <string name="undo_label">ರದ್ದುಗೊಳಿಸು</string>
     <string name="reset_title">ಕೌಂಟರ್ ರೀಸೆಟ್ ಮಾಡುವುದೇ?</string>
     <string name="reset_message">ನಿಮ್ಮ ಮಂತ್ರ ಎಣಿಕೆ ಶೂನ್ಯವಾಗುತ್ತದೆ.</string>
     <string name="reset_confirm">ರೀಸೆಟ್</string>
@@ -19,4 +22,13 @@
     <string name="deity_image_desc">ದೇವರ ಚಿತ್ರ</string>
     <string name="permission_needed">ಫೋಟೋ ಆಯ್ಕೆಗೆ ಅನುಮತಿ ಬೇಕು</string>
     <string name="mala_complete">🎉 ಮಾಲೆ ಪೂರ್ಣಗೊಂಡಿತು!</string>
+    <string name="set_reminder">ದೈನಂದಿನ ನೆನಪು</string>
+    <string name="reminder_set">%1$s ಗೆ ರಿಮೈಂಡರ್ ಹೊಂದಿಸಲಾಗಿದೆ</string>
+    <string name="reminder_cancelled">ರಿಮೈಂಡರ್ ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ</string>
+    <string name="notification_title">🙏 ಜಪ ಸಮಯ</string>
+    <string name="notification_body">ನಿಮ್ಮ ದೈನಂದಿನ ಮಂತ್ರ ಅಭ್ಯಾಸ ಕಾಯುತ್ತಿದೆ. ಓಂ</string>
+    <string name="cancel_reminder">ರಿಮೈಂಡರ್ ತೆಗೆದುಹಾಕಿ</string>
+    <string name="reminder_dialog_title">ದೈನಂದಿನ ರಿಮೈಂಡರ್ ಹೊಂದಿಸಿ</string>
+    <string name="reminder_dialog_message">ನಿಮ್ಮ ಮಂತ್ರ ಜಪಕ್ಕಾಗಿ ಸಮಯ ಆಯ್ಕೆಮಾಡಿ.</string>
+    <string name="notif_permission_needed">ರಿಮೈಂಡರ್‌ಗೆ ಅಧಿಸೂಚನೆ ಅನುಮತಿ ಬೇಕು</string>
 </resources>

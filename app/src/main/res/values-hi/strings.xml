@@ -11,6 +11,9 @@
     <string name="count_label">गिनती</string>
     <string name="total_label">कुल</string>
     <string name="mala_label">माला</string>
+    <string name="streak_label">लगातार</string>
+    <string name="days_label">दिन</string>
+    <string name="undo_label">पूर्ववत</string>
     <string name="reset_title">काउंटर रीसेट करें?</string>
     <string name="reset_message">आपकी मंत्र गिनती शून्य हो जाएगी।</string>
     <string name="reset_confirm">रीसेट</string>
@@ -19,4 +22,13 @@
     <string name="deity_image_desc">देवता का चित्र</string>
     <string name="permission_needed">फोटो चुनने के लिए अनुमति चाहिए</string>
     <string name="mala_complete">🎉 माला पूर्ण!</string>
+    <string name="set_reminder">दैनिक स्मरण</string>
+    <string name="reminder_set">%1$s बजे रिमाइंडर सेट किया</string>
+    <string name="reminder_cancelled">रिमाइंडर रद्द किया</string>
+    <string name="notification_title">🙏 जप का समय</string>
+    <string name="notification_body">आपका दैनिक मंत्र अभ्यास इंतजार कर रहा है। ॐ</string>
+    <string name="cancel_reminder">रिमाइंडर हटाएं</string>
+    <string name="reminder_dialog_title">दैनिक रिमाइंडर सेट करें</string>
+    <string name="reminder_dialog_message">अपने दैनिक मंत्र जप के लिए समय चुनें।</string>
+    <string name="notif_permission_needed">रिमाइंडर के लिए अधिसूचना अनुमति चाहिए</string>
 </resources>

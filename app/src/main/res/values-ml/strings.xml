@@ -11,6 +11,9 @@
     <string name="count_label">എണ്ണം</string>
     <string name="total_label">ആകെ</string>
     <string name="mala_label">മാല</string>
+    <string name="streak_label">തുടർ</string>
+    <string name="days_label">ദിവസം</string>
+    <string name="undo_label">പഴയത്</string>
     <string name="reset_title">കൗണ്ടർ റീസെറ്റ് ചെയ്യണോ?</string>
     <string name="reset_message">നിങ്ങളുടെ മന്ത്ര എണ്ണം പൂജ്യത്തിൽ ആകും.</string>
     <string name="reset_confirm">റീസെറ്റ്</string>
@@ -19,4 +22,13 @@
     <string name="deity_image_desc">ദേവതാ ചിത്രം</string>
     <string name="permission_needed">ഫോട്ടോ തിരഞ്ഞെടുക്കാൻ അനുമതി ആവശ്യം</string>
     <string name="mala_complete">🎉 മാല പൂർത്തിയായി!</string>
+    <string name="set_reminder">ദൈനംദിന ഓർമ്മിപ്പിക്കൽ</string>
+    <string name="reminder_set">%1$s ന് റിമൈൻഡർ സജ്ജമാക്കി</string>
+    <string name="reminder_cancelled">റിമൈൻഡർ റദ്ദാക്കി</string>
+    <string name="notification_title">🙏 ജപ സമയം</string>
+    <string name="notification_body">നിങ്ങളുടെ ദൈനംദിന മന്ത്ര അഭ്യാസം കാത്തിരിക്കുന്നു. ഓം</string>
+    <string name="cancel_reminder">റിമൈൻഡർ നീക്കുക</string>
+    <string name="reminder_dialog_title">ദൈനംദിന റിമൈൻഡർ സജ്ജമാക്കുക</string>
+    <string name="reminder_dialog_message">മന്ത്ര ജപത്തിനായി ഒരു സമയം തിരഞ്ഞെടുക്കുക.</string>
+    <string name="notif_permission_needed">റിമൈൻഡറിന് അറിയിപ്പ് അനുമതി ആവശ്യം</string>
 </resources>

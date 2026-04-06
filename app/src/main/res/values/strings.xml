@@ -11,6 +11,9 @@
     <string name="count_label">COUNT</string>
     <string name="total_label">TOTAL</string>
     <string name="mala_label">MALA</string>
+    <string name="streak_label">STREAK</string>
+    <string name="days_label">days</string>
+    <string name="undo_label">Undo</string>
     <string name="reset_title">Reset Counter?</string>
     <string name="reset_message">This will reset your mantra count to zero.</string>
     <string name="reset_confirm">Reset</string>
@@ -19,4 +22,14 @@
     <string name="deity_image_desc">Deity Photo</string>
     <string name="permission_needed">Storage permission needed to pick photo</string>
     <string name="mala_complete">🎉 Mala Complete!</string>
+    <!-- Reminder -->
+    <string name="set_reminder">Daily Reminder</string>
+    <string name="reminder_set">Reminder set for %1$s</string>
+    <string name="reminder_cancelled">Reminder cancelled</string>
+    <string name="notification_title">🙏 Time to Chant</string>
+    <string name="notification_body">Your daily mantra practice awaits. ॐ</string>
+    <string name="cancel_reminder">Cancel Reminder</string>
+    <string name="reminder_dialog_title">Set Daily Reminder</string>
+    <string name="reminder_dialog_message">Choose a time for your daily mantra reminder.</string>
+    <string name="notif_permission_needed">Notification permission needed for reminders</string>
 </resources>

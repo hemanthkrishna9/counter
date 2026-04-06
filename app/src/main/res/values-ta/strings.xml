@@ -11,6 +11,9 @@
     <string name="count_label">எண்ணிக்கை</string>
     <string name="total_label">மொத்தம்</string>
     <string name="mala_label">மாலை</string>
+    <string name="streak_label">தொடர்</string>
+    <string name="days_label">நாட்கள்</string>
+    <string name="undo_label">செயல்தவிர்</string>
     <string name="reset_title">கவுண்டரை மீட்டமைக்கவும்?</string>
     <string name="reset_message">உங்கள் மந்திர எண்ணிக்கை பூஜ்யமாகும்.</string>
     <string name="reset_confirm">மீட்டமை</string>
@@ -19,4 +22,13 @@
     <string name="deity_image_desc">தெய்வ படம்</string>
     <string name="permission_needed">படம் தேர்வு செய்ய அனுமதி தேவை</string>
     <string name="mala_complete">🎉 மாலை முழுமையானது!</string>
+    <string name="set_reminder">தினசரி நினைவூட்டல்</string>
+    <string name="reminder_set">%1$s க்கு நினைவூட்டல் அமைக்கப்பட்டது</string>
+    <string name="reminder_cancelled">நினைவூட்டல் ரத்து செய்யப்பட்டது</string>
+    <string name="notification_title">🙏 ஜப நேரம்</string>
+    <string name="notification_body">உங்கள் தினசரி மந்திர பயிற்சி காத்திருக்கிறது. ஓம்</string>
+    <string name="cancel_reminder">நினைவூட்டலை நீக்கு</string>
+    <string name="reminder_dialog_title">தினசரி நினைவூட்டல் அமை</string>
+    <string name="reminder_dialog_message">உங்கள் மந்திர ஜபத்திற்கு நேரம் தேர்வு செய்யுங்கள்.</string>
+    <string name="notif_permission_needed">நினைவூட்டலுக்கு அறிவிப்பு அனுமதி தேவை</string>
 </resources>

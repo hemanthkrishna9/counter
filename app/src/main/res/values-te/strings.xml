@@ -11,6 +11,9 @@
     <string name="count_label">లెక్క</string>
     <string name="total_label">మొత్తం</string>
     <string name="mala_label">మాల</string>
+    <string name="streak_label">వరుస</string>
+    <string name="days_label">రోజులు</string>
+    <string name="undo_label">రద్దు</string>
     <string name="reset_title">కౌంటర్ రీసెట్ చేయాలా?</string>
     <string name="reset_message">మీ మంత్ర లెక్క సున్నాకు రీసెట్ అవుతుంది.</string>
     <string name="reset_confirm">రీసెట్</string>
@@ -19,4 +22,13 @@
     <string name="deity_image_desc">దేవత చిత్రం</string>
     <string name="permission_needed">ఫోటో ఎంచుకోవడానికి అనుమతి అవసరం</string>
     <string name="mala_complete">🎉 మాల పూర్తయింది!</string>
+    <string name="set_reminder">రోజువారీ రిమైండర్</string>
+    <string name="reminder_set">%1$s కి రిమైండర్ సెట్ చేయబడింది</string>
+    <string name="reminder_cancelled">రిమైండర్ రద్దు చేయబడింది</string>
+    <string name="notification_title">🙏 జప సమయం</string>
+    <string name="notification_body">మీ రోజువారీ మంత్ర అభ్యాసం వేచి ఉంది. ఓం</string>
+    <string name="cancel_reminder">రిమైండర్ తొలగించు</string>
+    <string name="reminder_dialog_title">రోజువారీ రిమైండర్ సెట్ చేయండి</string>
+    <string name="reminder_dialog_message">మీ మంత్ర జపానికి సమయం ఎంచుకోండి.</string>
+    <string name="notif_permission_needed">రిమైండర్‌కు నోటిఫికేషన్ అనుమతి అవసరం</string>
 </resources>

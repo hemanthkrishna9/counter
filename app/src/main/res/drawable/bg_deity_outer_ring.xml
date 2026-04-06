@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Gold ring border around deity image -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="oval">
-    <gradient
-        android:type="sweep"
-        android:startColor="#D4AF37"
-        android:centerColor="#FF6B00"
-        android:endColor="#D4AF37" />
+    <solid android:color="#00000000" />
+    <stroke android:width="3dp" android:color="#D4AF37" />
 </shape>

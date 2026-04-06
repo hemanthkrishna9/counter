@@ -7,7 +7,6 @@
     android:background="@drawable/bg_main_gradient"
     tools:context=".MainActivity">
 
-    <!-- Scroll container -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -19,38 +18,62 @@
             android:gravity="center_horizontal"
             android:paddingTop="48dp"
             android:paddingBottom="40dp"
-            android:paddingHorizontal="20dp">
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
 
             <!-- ===== HEADER ===== -->
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
                 android:layout_marginBottom="4dp">
 
-                <View
-                    android:layout_width="40dp"
-                    android:layout_height="1dp"
-                    android:background="#60D4AF37"
-                    android:layout_marginEnd="12dp"/>
-
-                <TextView
+                <!-- Centered title -->
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/app_name"
-                    android:textSize="22sp"
-                    android:textColor="@color/gold_light"
-                    android:letterSpacing="0.2"
-                    android:fontFamily="serif" />
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_centerInParent="true">
 
-                <View
+                    <View
+                        android:layout_width="32dp"
+                        android:layout_height="1dp"
+                        android:background="#60D4AF37"
+                        android:layout_marginEnd="10dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/app_name"
+                        android:textSize="22sp"
+                        android:textColor="@color/gold_light"
+                        android:letterSpacing="0.2"
+                        android:fontFamily="serif" />
+
+                    <View
+                        android:layout_width="32dp"
+                        android:layout_height="1dp"
+                        android:background="#60D4AF37"
+                        android:layout_marginStart="10dp"/>
+
+                </LinearLayout>
+
+                <!-- Reminder bell - top right -->
+                <ImageView
+                    android:id="@+id/btnReminder"
                     android:layout_width="40dp"
-                    android:layout_height="1dp"
-                    android:background="#60D4AF37"
-                    android:layout_marginStart="12dp"/>
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_bell_gold"
+                    android:padding="8dp"
+                    android:background="@drawable/bg_action_button"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:contentDescription="@string/set_reminder"
+                    android:alpha="0.8"/>
 
-            </LinearLayout>
+            </RelativeLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -61,20 +84,18 @@
                 android:layout_marginBottom="28dp" />
 
             <!-- ===== DEITY IMAGE SECTION ===== -->
-            <!-- Outer glow ring -->
             <FrameLayout
                 android:layout_width="196dp"
                 android:layout_height="196dp"
                 android:layout_marginBottom="12dp">
 
-                <!-- Glow ring layer (larger circle behind) -->
+                <!-- Gold ring behind image -->
                 <View
                     android:layout_width="196dp"
                     android:layout_height="196dp"
                     android:background="@drawable/bg_deity_outer_ring"
                     android:layout_gravity="center" />
 
-                <!-- Actual image card -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardImage"
                     android:layout_width="180dp"
@@ -98,7 +119,6 @@
                             android:visibility="gone"
                             android:contentDescription="@string/deity_image_desc"/>
 
-                        <!-- Upload placeholder -->
                         <LinearLayout
                             android:id="@+id/layoutUploadHint"
                             android:layout_width="match_parent"
@@ -131,7 +151,7 @@
 
             </FrameLayout>
 
-            <!-- Photo action buttons -->
+            <!-- Photo action buttons — API 24 safe padding -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -146,15 +166,15 @@
                     android:text="@string/change_photo"
                     android:textColor="@color/gold"
                     android:textSize="12sp"
-                    android:paddingHorizontal="12dp"
-                    android:paddingVertical="6dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp"
                     android:background="@drawable/bg_action_button"
                     android:clickable="true"
                     android:focusable="true"/>
 
-                <View
-                    android:layout_width="16dp"
-                    android:layout_height="1dp" />
+                <View android:layout_width="16dp" android:layout_height="1dp" />
 
                 <TextView
                     android:id="@+id/btnClearImage"
@@ -163,39 +183,41 @@
                     android:text="@string/remove_photo"
                     android:textColor="@color/text_muted"
                     android:textSize="12sp"
-                    android:paddingHorizontal="12dp"
-                    android:paddingVertical="6dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp"
                     android:background="@drawable/bg_action_button"
                     android:clickable="true"
                     android:focusable="true"/>
 
             </LinearLayout>
 
-            <!-- ===== STATS ROW ===== -->
+            <!-- ===== STATS ROW: Total | Streak | Malas ===== -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginBottom="20dp">
 
-                <!-- Total Chants Card -->
+                <!-- Total Chants -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:padding="14dp"
+                    android:padding="12dp"
                     android:background="@drawable/bg_glass_card"
-                    android:layout_marginEnd="8dp">
+                    android:layout_marginEnd="6dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/total_label"
                         android:textColor="@color/text_muted"
-                        android:textSize="10sp"
-                        android:letterSpacing="0.15" />
+                        android:textSize="9sp"
+                        android:letterSpacing="0.12" />
 
                     <TextView
                         android:id="@+id/tvTotalCount"
@@ -203,39 +225,94 @@
                         android:layout_height="wrap_content"
                         android:text="0"
                         android:textColor="@color/gold_light"
-                        android:textSize="24sp"
+                        android:textSize="22sp"
                         android:textStyle="bold"
                         android:fontFamily="serif"
                         tools:text="108" />
 
                 </LinearLayout>
 
-                <!-- Malas Card -->
+                <!-- Streak Days -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:padding="14dp"
+                    android:padding="12dp"
                     android:background="@drawable/bg_glass_card"
-                    android:layout_marginStart="8dp">
+                    android:layout_marginStart="6dp"
+                    android:layout_marginEnd="6dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:src="@drawable/ic_fire"
+                            android:contentDescription="@null"
+                            android:layout_marginEnd="3dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/streak_label"
+                            android:textColor="@color/text_muted"
+                            android:textSize="9sp"
+                            android:letterSpacing="0.12" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvStreakDays"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textColor="@color/saffron_light"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        android:fontFamily="serif"
+                        tools:text="7" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/days_label"
+                        android:textColor="@color/text_muted"
+                        android:textSize="9sp" />
+
+                </LinearLayout>
+
+                <!-- Malas Complete -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="12dp"
+                    android:background="@drawable/bg_glass_card"
+                    android:layout_marginStart="6dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/mala_label"
                         android:textColor="@color/text_muted"
-                        android:textSize="10sp"
-                        android:letterSpacing="0.15" />
+                        android:textSize="9sp"
+                        android:letterSpacing="0.12" />
 
                     <TextView
                         android:id="@+id/tvMalaCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0"
-                        android:textColor="@color/saffron_light"
-                        android:textSize="24sp"
+                        android:textColor="@color/gold"
+                        android:textSize="22sp"
                         android:textStyle="bold"
                         android:fontFamily="serif"
                         tools:text="2" />
@@ -250,13 +327,11 @@
                 android:layout_height="260dp"
                 android:layout_marginBottom="32dp">
 
-                <!-- Custom mala ring -->
                 <com.mantracounter.app.MalaProgressView
                     android:id="@+id/malaProgressView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 
-                <!-- Count overlay in center -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -280,7 +355,6 @@
                         android:textSize="56sp"
                         android:textStyle="bold"
                         android:fontFamily="serif"
-                        android:lineSpacingExtra="-4dp"
                         tools:text="54" />
 
                     <TextView
@@ -302,7 +376,7 @@
                 android:layout_height="200dp"
                 android:layout_marginBottom="28dp">
 
-                <!-- Outer pulse ring (animated in code) -->
+                <!-- Pulsing outer ring (animated in code) -->
                 <View
                     android:id="@+id/viewPulseRing"
                     android:layout_width="200dp"
@@ -311,7 +385,7 @@
                     android:layout_gravity="center"
                     android:alpha="0.5" />
 
-                <!-- Main button -->
+                <!-- Count button -->
                 <FrameLayout
                     android:id="@+id/btnCount"
                     android:layout_width="172dp"
@@ -334,8 +408,7 @@
                             android:text="ॐ"
                             android:textSize="52sp"
                             android:textColor="#0D0500"
-                            android:fontFamily="serif"
-                            android:lineSpacingExtra="-4dp" />
+                            android:fontFamily="serif" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -359,7 +432,6 @@
                 android:orientation="horizontal"
                 android:gravity="center">
 
-                <!-- Minus 1 -->
                 <LinearLayout
                     android:id="@+id/btnMinusOne"
                     android:layout_width="0dp"
@@ -383,13 +455,12 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Undo"
+                        android:text="@string/undo_label"
                         android:textColor="@color/text_muted"
                         android:textSize="10sp" />
 
                 </LinearLayout>
 
-                <!-- Reset -->
                 <LinearLayout
                     android:id="@+id/btnReset"
                     android:layout_width="0dp"
