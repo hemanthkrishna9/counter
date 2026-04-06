@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">మంత్ర కౌంటర్</string>
+    <string name="om_symbol">ఓం</string>
+    <string name="tap_to_chant">జపించండి</string>
+    <string name="upload_deity">దేవుని\nఫోటో జోడించండి</string>
+    <string name="change_photo">ఫోటో మార్చండి</string>
+    <string name="remove_photo">తొలగించండి</string>
+    <string name="reset">రీసెట్</string>
+    <string name="malas">మాల</string>
+    <string name="count_label">లెక్క</string>
+    <string name="total_label">మొత్తం</string>
+    <string name="mala_label">మాల</string>
+    <string name="reset_title">కౌంటర్ రీసెట్ చేయాలా?</string>
+    <string name="reset_message">మీ మంత్ర లెక్క సున్నాకు రీసెట్ అవుతుంది.</string>
+    <string name="reset_confirm">రీసెట్</string>
+    <string name="cancel">రద్దు చేయి</string>
+    <string name="minus_one">−1</string>
+    <string name="deity_image_desc">దేవత చిత్రం</string>
+    <string name="permission_needed">ఫోటో ఎంచుకోవడానికి అనుమతి అవసరం</string>
+    <string name="mala_complete">🎉 మాల పూర్తయింది!</string>
+</resources>

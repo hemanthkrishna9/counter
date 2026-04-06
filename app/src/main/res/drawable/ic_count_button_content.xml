@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Circular gradient button with OM text overlay handled in code -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <gradient
+        android:type="radial"
+        android:gradientRadius="50%"
+        android:startColor="#F5D06A"
+        android:centerColor="#D4AF37"
+        android:endColor="#7A5800" />
+    <stroke android:width="2dp" android:color="#D4AF37" />
+</shape>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">मंत्र काउंटर</string>
+    <string name="om_symbol">ॐ</string>
+    <string name="tap_to_chant">जप करें</string>
+    <string name="upload_deity">देवी/देवता का\nफोटो जोड़ें</string>
+    <string name="change_photo">फोटो बदलें</string>
+    <string name="remove_photo">हटाएं</string>
+    <string name="reset">रीसेट</string>
+    <string name="malas">माला</string>
+    <string name="count_label">गिनती</string>
+    <string name="total_label">कुल</string>
+    <string name="mala_label">माला</string>
+    <string name="reset_title">काउंटर रीसेट करें?</string>
+    <string name="reset_message">आपकी मंत्र गिनती शून्य हो जाएगी।</string>
+    <string name="reset_confirm">रीसेट</string>
+    <string name="cancel">रद्द करें</string>
+    <string name="minus_one">−1</string>
+    <string name="deity_image_desc">देवता का चित्र</string>
+    <string name="permission_needed">फोटो चुनने के लिए अनुमति चाहिए</string>
+    <string name="mala_complete">🎉 माला पूर्ण!</string>
+</resources>

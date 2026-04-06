@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">மந்திர கவுண்டர்</string>
+    <string name="om_symbol">ஓம்</string>
+    <string name="tap_to_chant">ஜபிக்க தொடுக்கவும்</string>
+    <string name="upload_deity">தெய்வ\nபடம் சேர்க்கவும்</string>
+    <string name="change_photo">படம் மாற்று</string>
+    <string name="remove_photo">நீக்கு</string>
+    <string name="reset">மீட்டமை</string>
+    <string name="malas">மாலை</string>
+    <string name="count_label">எண்ணிக்கை</string>
+    <string name="total_label">மொத்தம்</string>
+    <string name="mala_label">மாலை</string>
+    <string name="reset_title">கவுண்டரை மீட்டமைக்கவும்?</string>
+    <string name="reset_message">உங்கள் மந்திர எண்ணிக்கை பூஜ்யமாகும்.</string>
+    <string name="reset_confirm">மீட்டமை</string>
+    <string name="cancel">ரத்துசெய்</string>
+    <string name="minus_one">−1</string>
+    <string name="deity_image_desc">தெய்வ படம்</string>
+    <string name="permission_needed">படம் தேர்வு செய்ய அனுமதி தேவை</string>
+    <string name="mala_complete">🎉 மாலை முழுமையானது!</string>
+</resources>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">മന്ത്ര കൗണ്ടർ</string>
+    <string name="om_symbol">ഓം</string>
+    <string name="tap_to_chant">ജപിക്കാൻ ടാപ്പ് ചെയ്യൂ</string>
+    <string name="upload_deity">ദേവതയുടെ\nഫോട്ടോ ചേർക്കുക</string>
+    <string name="change_photo">ഫോട്ടോ മാറ്റുക</string>
+    <string name="remove_photo">നീക്കുക</string>
+    <string name="reset">റീസെറ്റ്</string>
+    <string name="malas">മാല</string>
+    <string name="count_label">എണ്ണം</string>
+    <string name="total_label">ആകെ</string>
+    <string name="mala_label">മാല</string>
+    <string name="reset_title">കൗണ്ടർ റീസെറ്റ് ചെയ്യണോ?</string>
+    <string name="reset_message">നിങ്ങളുടെ മന്ത്ര എണ്ണം പൂജ്യത്തിൽ ആകും.</string>
+    <string name="reset_confirm">റീസെറ്റ്</string>
+    <string name="cancel">റദ്ദാക്കുക</string>
+    <string name="minus_one">−1</string>
+    <string name="deity_image_desc">ദേവതാ ചിത്രം</string>
+    <string name="permission_needed">ഫോട്ടോ തിരഞ്ഞെടുക്കാൻ അനുമതി ആവശ്യം</string>
+    <string name="mala_complete">🎉 മാല പൂർത്തിയായി!</string>
+</resources>

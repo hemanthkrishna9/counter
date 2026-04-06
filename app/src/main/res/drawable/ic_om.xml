@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- OM / AUM symbol as vector -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="80dp"
+    android:height="80dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
+    <!-- Outer glow circle -->
+    <path
+        android:fillColor="#33D4AF37"
+        android:pathData="M50,5 A45,45 0 1,1 49.99,5 Z" />
+    <!-- OM text placeholder path - simplified circular design -->
+    <path
+        android:fillColor="#D4AF37"
+        android:pathData="M50,15 A35,35 0 1,1 49.99,15 Z" />
+    <path
+        android:fillColor="#0D0500"
+        android:pathData="M50,22 A28,28 0 1,1 49.99,22 Z" />
+    <path
+        android:fillColor="#D4AF37"
+        android:pathData="M50,28 A22,22 0 1,1 49.99,28 Z" />
+    <path
+        android:fillColor="#0D0500"
+        android:pathData="M50,35 A15,15 0 1,1 49.99,35 Z" />
+</vector>

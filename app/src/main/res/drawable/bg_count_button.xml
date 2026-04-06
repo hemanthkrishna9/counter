@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape android:shape="oval">
+            <gradient
+                android:type="radial"
+                android:gradientRadius="50%"
+                android:startColor="#F5D06A"
+                android:endColor="#A07D10" />
+            <stroke android:width="2dp" android:color="#F5D06A" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="oval">
+            <gradient
+                android:type="radial"
+                android:gradientRadius="50%"
+                android:startColor="#D4AF37"
+                android:endColor="#7A5800" />
+            <stroke android:width="2dp" android:color="#D4AF37" />
+        </shape>
+    </item>
+</selector>

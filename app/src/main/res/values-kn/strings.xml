@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ಮಂತ್ರ ಕೌಂಟರ್</string>
+    <string name="om_symbol">ಓಂ</string>
+    <string name="tap_to_chant">ಜಪಿಸಲು ಒತ್ತಿರಿ</string>
+    <string name="upload_deity">ದೇವರ\nಫೋಟೋ ಸೇರಿಸಿ</string>
+    <string name="change_photo">ಫೋಟೋ ಬದಲಿಸಿ</string>
+    <string name="remove_photo">ತೆಗೆದುಹಾಕಿ</string>
+    <string name="reset">ರೀಸೆಟ್</string>
+    <string name="malas">ಮಾಲೆ</string>
+    <string name="count_label">ಎಣಿಕೆ</string>
+    <string name="total_label">ಒಟ್ಟು</string>
+    <string name="mala_label">ಮಾಲೆ</string>
+    <string name="reset_title">ಕೌಂಟರ್ ರೀಸೆಟ್ ಮಾಡುವುದೇ?</string>
+    <string name="reset_message">ನಿಮ್ಮ ಮಂತ್ರ ಎಣಿಕೆ ಶೂನ್ಯವಾಗುತ್ತದೆ.</string>
+    <string name="reset_confirm">ರೀಸೆಟ್</string>
+    <string name="cancel">ರದ್ದು ಮಾಡಿ</string>
+    <string name="minus_one">−1</string>
+    <string name="deity_image_desc">ದೇವರ ಚಿತ್ರ</string>
+    <string name="permission_needed">ಫೋಟೋ ಆಯ್ಕೆಗೆ ಅನುಮತಿ ಬೇಕು</string>
+    <string name="mala_complete">🎉 ಮಾಲೆ ಪೂರ್ಣಗೊಂಡಿತು!</string>
+</resources>

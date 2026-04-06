@@ -1,6 +1,8 @@
 package com.mantracounter.app
 
 import android.Manifest
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
@@ -9,6 +11,8 @@ import android.os.Build
 import android.os.Bundle
 import android.view.HapticFeedbackConstants
 import android.view.View
+import android.view.animation.AnimationUtils
+import android.view.animation.OvershootInterpolator
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -24,15 +28,13 @@ class MainActivity : AppCompatActivity() {
 
     private val pickImage = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         uri?.let {
-            // Persist permission for the URI
             try {
-                contentResolver.takePersistableUriPermission(it, android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            } catch (e: Exception) {
-                // Some URIs don't support persistable permissions
-            }
-            binding.ivGoddess.setImageURI(it)
-            binding.ivGoddess.visibility = View.VISIBLE
-            binding.tvUploadHint.visibility = View.GONE
+                contentResolver.takePersistableUriPermission(
+                    it,
+                    android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION
+                )
+            } catch (_: Exception) {}
+            applyDeityImage(it)
             prefs.edit().putString("image_uri", it.toString()).apply()
         }
     }
@@ -41,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         if (granted) {
             pickImage.launch("image/*")
         } else {
-            Toast.makeText(this, "Permission needed to pick image", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.permission_needed), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -52,53 +54,74 @@ class MainActivity : AppCompatActivity() {
 
         prefs = getSharedPreferences("mantra_prefs", Context.MODE_PRIVATE)
 
-        // Restore saved count
+        // Restore saved state
         count = prefs.getInt("count", 0)
-        updateCountDisplay()
+        updateCountDisplay(animate = false)
 
-        // Restore saved image
-        val savedUri = prefs.getString("image_uri", null)
-        if (savedUri != null) {
+        // Restore deity image
+        prefs.getString("image_uri", null)?.let { uriStr ->
             try {
-                binding.ivGoddess.setImageURI(Uri.parse(savedUri))
-                binding.ivGoddess.visibility = View.VISIBLE
-                binding.tvUploadHint.visibility = View.GONE
-            } catch (e: Exception) {
-                // Image no longer accessible
+                applyDeityImage(Uri.parse(uriStr))
+            } catch (_: Exception) {}
+        }
+
+        // Start pulse animation on ring
+        startPulseAnimation()
+
+        // === CLICK HANDLERS ===
+
+        binding.btnCount.setOnClickListener {
+            count++
+            updateCountDisplay(animate = true)
+            prefs.edit().putInt("count", count).apply()
+            it.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
+            animateButton(it)
+
+            // Celebrate mala completion
+            if (count % 108 == 0 && count > 0) {
+                Toast.makeText(this, getString(R.string.mala_complete), Toast.LENGTH_SHORT).show()
             }
         }
 
-        // Tap counter button
-        binding.btnCount.setOnClickListener {
-            count++
-            updateCountDisplay()
-            prefs.edit().putInt("count", count).apply()
-            it.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
-        }
-
-        // Long press to reset
         binding.btnCount.setOnLongClickListener {
             showResetDialog()
             true
         }
 
-        // Reset button
         binding.btnReset.setOnClickListener {
             showResetDialog()
         }
 
-        // Upload image
+        binding.btnMinusOne.setOnClickListener {
+            if (count > 0) {
+                count--
+                updateCountDisplay(animate = false)
+                prefs.edit().putInt("count", count).apply()
+                it.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
+            }
+        }
+
+        binding.btnChangePhoto.setOnClickListener {
+            requestImagePermissionAndPick()
+        }
+
+        // Tapping the card also opens picker
         binding.cardImage.setOnClickListener {
             requestImagePermissionAndPick()
         }
 
-        // Clear image
         binding.btnClearImage.setOnClickListener {
             binding.ivGoddess.setImageDrawable(null)
             binding.ivGoddess.visibility = View.GONE
-            binding.tvUploadHint.visibility = View.VISIBLE
+            binding.layoutUploadHint.visibility = View.VISIBLE
             prefs.edit().remove("image_uri").apply()
         }
+    }
+
+    private fun applyDeityImage(uri: Uri) {
+        binding.ivGoddess.setImageURI(uri)
+        binding.ivGoddess.visibility = View.VISIBLE
+        binding.layoutUploadHint.visibility = View.GONE
     }
 
     private fun requestImagePermissionAndPick() {
@@ -107,32 +130,79 @@ class MainActivity : AppCompatActivity() {
         } else {
             Manifest.permission.READ_EXTERNAL_STORAGE
         }
-
-        when {
-            ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED -> {
-                pickImage.launch("image/*")
-            }
-            else -> {
-                requestPermission.launch(permission)
-            }
+        if (ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED) {
+            pickImage.launch("image/*")
+        } else {
+            requestPermission.launch(permission)
         }
     }
 
-    private fun showResetDialog() {
-        AlertDialog.Builder(this)
-            .setTitle("Reset Counter")
-            .setMessage("Reset count to 0?")
-            .setPositiveButton("Reset") { _, _ ->
-                count = 0
-                updateCountDisplay()
-                prefs.edit().putInt("count", 0).apply()
-            }
-            .setNegativeButton("Cancel", null)
-            .show()
+    private fun updateCountDisplay(animate: Boolean) {
+        val malasDone = count / 108
+        val beadsInCurrentMala = count % 108
+
+        binding.tvCount.text = count.toString()
+        binding.tvTotalCount.text = count.toString()
+        binding.tvMalaCount.text = malasDone.toString()
+        binding.tvMalaProgress.text = "$beadsInCurrentMala / 108"
+        binding.malaProgressView.progress = beadsInCurrentMala
+
+        if (animate) {
+            val anim = AnimationUtils.loadAnimation(this, R.anim.count_bounce)
+            binding.tvCount.startAnimation(anim)
+        }
     }
 
-    private fun updateCountDisplay() {
-        binding.tvCount.text = count.toString()
-        binding.tvMalas.text = "${count / 108} Malas  •  ${count % 108}/108"
+    private fun animateButton(view: View) {
+        val scaleDownX = ObjectAnimator.ofFloat(view, "scaleX", 1f, 0.90f)
+        val scaleDownY = ObjectAnimator.ofFloat(view, "scaleY", 1f, 0.90f)
+        val scaleUpX = ObjectAnimator.ofFloat(view, "scaleX", 0.90f, 1f)
+        val scaleUpY = ObjectAnimator.ofFloat(view, "scaleY", 0.90f, 1f)
+
+        scaleDownX.duration = 60
+        scaleDownY.duration = 60
+        scaleUpX.duration = 150
+        scaleUpY.duration = 150
+        scaleUpX.interpolator = OvershootInterpolator(2f)
+        scaleUpY.interpolator = OvershootInterpolator(2f)
+
+        AnimatorSet().apply {
+            play(scaleDownX).with(scaleDownY)
+            play(scaleUpX).with(scaleUpY).after(scaleDownX)
+            start()
+        }
+    }
+
+    private fun startPulseAnimation() {
+        val ring = binding.viewPulseRing
+
+        val scaleX = ObjectAnimator.ofFloat(ring, "scaleX", 1f, 1.12f, 1f)
+        val scaleY = ObjectAnimator.ofFloat(ring, "scaleY", 1f, 1.12f, 1f)
+        val alpha = ObjectAnimator.ofFloat(ring, "alpha", 0.5f, 0.15f, 0.5f)
+
+        scaleX.duration = 1800
+        scaleY.duration = 1800
+        alpha.duration = 1800
+
+        AnimatorSet().apply {
+            play(scaleX).with(scaleY).with(alpha)
+            start()
+        }
+
+        // Repeat
+        ring.postDelayed({ startPulseAnimation() }, 1800)
+    }
+
+    private fun showResetDialog() {
+        AlertDialog.Builder(this, R.style.Theme_MantraCounter_Dialog)
+            .setTitle(getString(R.string.reset_title))
+            .setMessage(getString(R.string.reset_message))
+            .setPositiveButton(getString(R.string.reset_confirm)) { _, _ ->
+                count = 0
+                updateCountDisplay(animate = false)
+                prefs.edit().putInt("count", 0).apply()
+            }
+            .setNegativeButton(getString(R.string.cancel), null)
+            .show()
     }
 }

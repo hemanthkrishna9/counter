@@ -1,173 +1,427 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@drawable/bg_main_gradient"
     tools:context=".MainActivity">
 
-    <LinearLayout
+    <!-- Scroll container -->
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:gravity="center_horizontal">
+        android:layout_height="match_parent">
 
-        <!-- App Title -->
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/app_name"
-            android:textSize="28sp"
-            android:textColor="@color/saffron_dark"
-            android:textStyle="bold"
-            android:fontFamily="serif"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"/>
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:paddingTop="48dp"
+            android:paddingBottom="40dp"
+            android:paddingHorizontal="20dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="&#2384;"
-            android:textSize="32sp"
-            android:textColor="@color/saffron"
-            android:layout_marginBottom="16dp"/>
+            <!-- ===== HEADER ===== -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="4dp">
 
-        <!-- Image Card -->
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardImage"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            app:cardCornerRadius="100dp"
-            app:cardElevation="8dp"
-            app:strokeColor="@color/saffron"
-            app:strokeWidth="3dp"
-            android:layout_marginBottom="8dp">
+                <View
+                    android:layout_width="40dp"
+                    android:layout_height="1dp"
+                    android:background="#60D4AF37"
+                    android:layout_marginEnd="12dp"/>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_name"
+                    android:textSize="22sp"
+                    android:textColor="@color/gold_light"
+                    android:letterSpacing="0.2"
+                    android:fontFamily="serif" />
+
+                <View
+                    android:layout_width="40dp"
+                    android:layout_height="1dp"
+                    android:background="#60D4AF37"
+                    android:layout_marginStart="12dp"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/om_symbol"
+                android:textSize="22sp"
+                android:textColor="@color/saffron"
+                android:layout_marginBottom="28dp" />
+
+            <!-- ===== DEITY IMAGE SECTION ===== -->
+            <!-- Outer glow ring -->
             <FrameLayout
+                android:layout_width="196dp"
+                android:layout_height="196dp"
+                android:layout_marginBottom="12dp">
+
+                <!-- Glow ring layer (larger circle behind) -->
+                <View
+                    android:layout_width="196dp"
+                    android:layout_height="196dp"
+                    android:background="@drawable/bg_deity_outer_ring"
+                    android:layout_gravity="center" />
+
+                <!-- Actual image card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardImage"
+                    android:layout_width="180dp"
+                    android:layout_height="180dp"
+                    android:layout_gravity="center"
+                    app:cardCornerRadius="90dp"
+                    app:cardElevation="0dp"
+                    app:strokeColor="@color/gold"
+                    app:strokeWidth="2dp"
+                    app:cardBackgroundColor="@color/bg_mid">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:id="@+id/ivGoddess"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            android:visibility="gone"
+                            android:contentDescription="@string/deity_image_desc"/>
+
+                        <!-- Upload placeholder -->
+                        <LinearLayout
+                            android:id="@+id/layoutUploadHint"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:padding="16dp">
+
+                            <ImageView
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:src="@drawable/ic_camera_gold"
+                                android:alpha="0.7"
+                                android:contentDescription="@null"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/upload_deity"
+                                android:textAlignment="center"
+                                android:textColor="@color/text_secondary"
+                                android:textSize="12sp"
+                                android:layout_marginTop="8dp"/>
+
+                        </LinearLayout>
+
+                    </FrameLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </FrameLayout>
+
+            <!-- Photo action buttons -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginBottom="28dp">
+
+                <TextView
+                    android:id="@+id/btnChangePhoto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/change_photo"
+                    android:textColor="@color/gold"
+                    android:textSize="12sp"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="6dp"
+                    android:background="@drawable/bg_action_button"
+                    android:clickable="true"
+                    android:focusable="true"/>
+
+                <View
+                    android:layout_width="16dp"
+                    android:layout_height="1dp" />
+
+                <TextView
+                    android:id="@+id/btnClearImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/remove_photo"
+                    android:textColor="@color/text_muted"
+                    android:textSize="12sp"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="6dp"
+                    android:background="@drawable/bg_action_button"
+                    android:clickable="true"
+                    android:focusable="true"/>
+
+            </LinearLayout>
+
+            <!-- ===== STATS ROW ===== -->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/image_placeholder_bg">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="20dp">
 
-                <ImageView
-                    android:id="@+id/ivGoddess"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:visibility="gone"
-                    android:contentDescription="Deity Image"/>
-
+                <!-- Total Chants Card -->
                 <LinearLayout
-                    android:id="@+id/tvUploadHint"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="14dp"
+                    android:background="@drawable/bg_glass_card"
+                    android:layout_marginEnd="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/total_label"
+                        android:textColor="@color/text_muted"
+                        android:textSize="10sp"
+                        android:letterSpacing="0.15" />
+
+                    <TextView
+                        android:id="@+id/tvTotalCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textColor="@color/gold_light"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:fontFamily="serif"
+                        tools:text="108" />
+
+                </LinearLayout>
+
+                <!-- Malas Card -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="14dp"
+                    android:background="@drawable/bg_glass_card"
+                    android:layout_marginStart="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/mala_label"
+                        android:textColor="@color/text_muted"
+                        android:textSize="10sp"
+                        android:letterSpacing="0.15" />
+
+                    <TextView
+                        android:id="@+id/tvMalaCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textColor="@color/saffron_light"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:fontFamily="serif"
+                        tools:text="2" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- ===== MALA PROGRESS RING + COUNT ===== -->
+            <FrameLayout
+                android:layout_width="260dp"
+                android:layout_height="260dp"
+                android:layout_marginBottom="32dp">
+
+                <!-- Custom mala ring -->
+                <com.mantracounter.app.MalaProgressView
+                    android:id="@+id/malaProgressView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <!-- Count overlay in center -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:gravity="center"
-                    android:padding="16dp">
+                    android:gravity="center">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="&#128591;"
-                        android:textSize="40sp"/>
+                        android:text="@string/count_label"
+                        android:textColor="@color/text_muted"
+                        android:textSize="11sp"
+                        android:letterSpacing="0.2" />
 
                     <TextView
+                        android:id="@+id/tvCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Tap to add\nDeity photo"
-                        android:textAlignment="center"
-                        android:textColor="@color/saffron_dark"
+                        android:text="0"
+                        android:textColor="@color/text_primary"
+                        android:textSize="56sp"
+                        android:textStyle="bold"
+                        android:fontFamily="serif"
+                        android:lineSpacingExtra="-4dp"
+                        tools:text="54" />
+
+                    <TextView
+                        android:id="@+id/tvMalaProgress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0 / 108"
+                        android:textColor="@color/text_muted"
                         android:textSize="13sp"
-                        android:layout_marginTop="8dp"/>
+                        tools:text="54 / 108" />
 
                 </LinearLayout>
 
             </FrameLayout>
 
-        </com.google.android.material.card.MaterialCardView>
+            <!-- ===== MAIN COUNT BUTTON ===== -->
+            <FrameLayout
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_marginBottom="28dp">
 
-        <!-- Clear Image Button -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnClearImage"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Remove Photo"
-            android:textColor="@color/saffron"
-            android:textSize="12sp"
-            android:layout_marginBottom="24dp"/>
+                <!-- Outer pulse ring (animated in code) -->
+                <View
+                    android:id="@+id/viewPulseRing"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:background="@drawable/bg_pulse_ring"
+                    android:layout_gravity="center"
+                    android:alpha="0.5" />
 
-        <!-- Counter Display -->
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
-            app:cardBackgroundColor="@color/counter_card_bg"
-            android:layout_marginBottom="16dp">
+                <!-- Main button -->
+                <FrameLayout
+                    android:id="@+id/btnCount"
+                    android:layout_width="172dp"
+                    android:layout_height="172dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/ripple_gold"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:elevation="8dp">
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="ॐ"
+                            android:textSize="52sp"
+                            android:textColor="#0D0500"
+                            android:fontFamily="serif"
+                            android:lineSpacingExtra="-4dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/tap_to_chant"
+                            android:textSize="11sp"
+                            android:textColor="#661A0800"
+                            android:letterSpacing="0.05"
+                            android:layout_marginTop="2dp" />
+
+                    </LinearLayout>
+
+                </FrameLayout>
+
+            </FrameLayout>
+
+            <!-- ===== BOTTOM ACTIONS ===== -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:padding="24dp">
+                android:orientation="horizontal"
+                android:gravity="center">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Count"
-                    android:textSize="16sp"
-                    android:textColor="@color/saffron_dark"
-                    android:letterSpacing="0.1"/>
+                <!-- Minus 1 -->
+                <LinearLayout
+                    android:id="@+id/btnMinusOne"
+                    android:layout_width="0dp"
+                    android:layout_height="56dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/bg_action_button"
+                    android:layout_marginEnd="10dp"
+                    android:clickable="true"
+                    android:focusable="true">
 
-                <TextView
-                    android:id="@+id/tvCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0"
-                    android:textSize="72sp"
-                    android:textColor="@color/saffron_dark"
-                    android:textStyle="bold"
-                    android:fontFamily="serif"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/minus_one"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/tvMalas"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0 Malas  •  0/108"
-                    android:textSize="14sp"
-                    android:textColor="@color/saffron"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Undo"
+                        android:textColor="@color/text_muted"
+                        android:textSize="10sp" />
+
+                </LinearLayout>
+
+                <!-- Reset -->
+                <LinearLayout
+                    android:id="@+id/btnReset"
+                    android:layout_width="0dp"
+                    android:layout_height="56dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/bg_action_button"
+                    android:layout_marginStart="10dp"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_refresh_gold"
+                        android:contentDescription="@null" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/reset"
+                        android:textColor="@color/text_muted"
+                        android:textSize="11sp"
+                        android:layout_marginTop="2dp" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
-        </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
 
-        <!-- Count Button -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnCount"
-            android:layout_width="220dp"
-            android:layout_height="220dp"
-            android:text="&#128591;&#10;Tap to&#10;Chant"
-            android:textSize="20sp"
-            android:textColor="@android:color/white"
-            android:backgroundTint="@color/saffron"
-            app:cornerRadius="110dp"
-            android:elevation="12dp"
-            android:layout_marginBottom="24dp"/>
+    </androidx.core.widget.NestedScrollView>
 
-        <!-- Reset Button -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnReset"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Reset Counter"
-            android:textColor="@color/saffron_dark"
-            app:strokeColor="@color/saffron_dark"
-            android:layout_marginBottom="32dp"/>
-
-    </LinearLayout>
-
-</ScrollView>
+</FrameLayout>
