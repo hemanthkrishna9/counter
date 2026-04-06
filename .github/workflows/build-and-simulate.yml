@@ -3,6 +3,7 @@ name: Build & Simulate
 on:
   push:
   pull_request:
+  workflow_dispatch:  # allows manual re-run from GitHub Actions UI
 
 jobs:
   build:
@@ -51,6 +52,7 @@ jobs:
       - name: Upload to Appetize.io & get simulator URL
         id: appetize
         if: ${{ secrets.APPETIZE_TOKEN != '' }}
+        # Secret is now configured — this step will run
         env:
           APPETIZE_TOKEN: ${{ secrets.APPETIZE_TOKEN }}
         run: |
