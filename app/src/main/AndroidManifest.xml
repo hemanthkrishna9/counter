@@ -4,6 +4,7 @@
     <!-- Storage permissions for image picker -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
+    <!-- minSdk is 26 — adaptive icons, AlarmManager idle, etc. all work natively -->
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
 
     <!-- Notification permission (Android 13+) -->

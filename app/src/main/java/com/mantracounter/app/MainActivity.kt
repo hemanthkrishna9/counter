@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
                 contentResolver.takePersistableUriPermission(
                     it, android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION
                 )
-            } catch (_: Exception) {}
+            } catch (e: Exception) { /* URI may not support persistable permissions */ }
             applyDeityImage(it)
             prefs.edit().putString("image_uri", it.toString()).apply()
         }
@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity() {
 
         // Restore deity image
         prefs.getString("image_uri", null)?.let { uriStr ->
-            try { applyDeityImage(Uri.parse(uriStr)) } catch (_: Exception) {}
+            try { applyDeityImage(Uri.parse(uriStr)) } catch (e: Exception) { /* stale URI */ }
         }
 
         startPulseAnimation()

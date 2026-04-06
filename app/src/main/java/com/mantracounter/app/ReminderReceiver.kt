@@ -43,7 +43,7 @@ class ReminderReceiver : BroadcastReceiver() {
 
         try {
             NotificationManagerCompat.from(context).notify(NOTIFICATION_ID, notification)
-        } catch (_: SecurityException) {
+        } catch (e: SecurityException) {
             // Notification permission not granted — silently skip
         }
 
