@@ -8,7 +8,6 @@ import android.app.TimePickerDialog
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.HapticFeedbackConstants
@@ -32,24 +31,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var prefs: SharedPreferences
     private var count = 0
 
-    // ---- Image picker ----
-    private val pickImage = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        uri?.let {
-            try {
-                contentResolver.takePersistableUriPermission(
-                    it, android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION
-                )
-            } catch (e: Exception) { /* URI may not support persistable permissions */ }
-            applyDeityImage(it)
-            prefs.edit().putString("image_uri", it.toString()).apply()
-        }
-    }
-
-    private val requestStoragePermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
-        if (granted) pickImage.launch("image/*")
-        else Toast.makeText(this, getString(R.string.permission_needed), Toast.LENGTH_SHORT).show()
-    }
-
     // ---- Notification permission (API 33+) ----
     private val requestNotifPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
         if (granted) showTimePickerForReminder()
@@ -68,11 +49,6 @@ class MainActivity : AppCompatActivity() {
         count = prefs.getInt("count", 0)
         updateCountDisplay(animate = false)
         binding.tvStreakDays.text = prefs.getInt("streak_days", 0).toString()
-
-        // Restore deity image
-        prefs.getString("image_uri", null)?.let { uriStr ->
-            try { applyDeityImage(Uri.parse(uriStr)) } catch (e: Exception) { /* stale URI */ }
-        }
 
         startPulseAnimation()
 
@@ -104,16 +80,6 @@ class MainActivity : AppCompatActivity() {
                 prefs.edit().putInt("count", count).apply()
                 it.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
             }
-        }
-
-        binding.btnChangePhoto.setOnClickListener { requestImagePermissionAndPick() }
-        binding.cardImage.setOnClickListener { requestImagePermissionAndPick() }
-
-        binding.btnClearImage.setOnClickListener {
-            binding.ivGoddess.setImageDrawable(null)
-            binding.ivGoddess.visibility = View.GONE
-            binding.layoutUploadHint.visibility = View.VISIBLE
-            prefs.edit().remove("image_uri").apply()
         }
 
         binding.btnReminder.setOnClickListener { onReminderClicked() }
@@ -234,24 +200,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     // ===== UI =====
-
-    private fun applyDeityImage(uri: Uri) {
-        binding.ivGoddess.setImageURI(uri)
-        binding.ivGoddess.visibility = View.VISIBLE
-        binding.layoutUploadHint.visibility = View.GONE
-    }
-
-    private fun requestImagePermissionAndPick() {
-        val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-            Manifest.permission.READ_MEDIA_IMAGES
-        else
-            Manifest.permission.READ_EXTERNAL_STORAGE
-
-        if (ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED)
-            pickImage.launch("image/*")
-        else
-            requestStoragePermission.launch(permission)
-    }
 
     private fun updateCountDisplay(animate: Boolean) {
         val malasDone = count / 108
