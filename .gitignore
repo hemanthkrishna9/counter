@@ -1,0 +1,15 @@
+# Local Android SDK path — machine-specific, never commit
+local.properties
+
+# Build outputs
+*.iml
+.gradle/
+build/
+app/build/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# IDE
+.idea/
+*.DS_Store
