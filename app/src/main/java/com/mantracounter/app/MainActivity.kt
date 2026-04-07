@@ -10,6 +10,10 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.media.RingtoneManager
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.os.VibratorManager
 import android.view.HapticFeedbackConstants
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -63,6 +67,8 @@ class MainActivity : AppCompatActivity() {
             animateButton(it)
             if (count % 108 == 0) {
                 Toast.makeText(this, getString(R.string.mala_complete), Toast.LENGTH_SHORT).show()
+                vibrateForMala()
+                playMalaCompleteSound()
             }
         }
 
@@ -250,6 +256,26 @@ class MainActivity : AppCompatActivity() {
             }
             start()
         }
+    }
+
+    private fun vibrateForMala() {
+        // Long-short-long pattern: 0ms delay, 400ms on, 100ms off, 400ms on
+        val pattern = longArrayOf(0, 400, 100, 400)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val vm = getSystemService(VibratorManager::class.java)
+            vm?.defaultVibrator?.vibrate(VibrationEffect.createWaveform(pattern, -1))
+        } else {
+            @Suppress("DEPRECATION")
+            val v = getSystemService(Vibrator::class.java)
+            v?.vibrate(VibrationEffect.createWaveform(pattern, -1))
+        }
+    }
+
+    private fun playMalaCompleteSound() {
+        try {
+            val uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+            RingtoneManager.getRingtone(this, uri)?.play()
+        } catch (e: Exception) { /* silent fail if audio unavailable */ }
     }
 
     private fun showResetDialog() {

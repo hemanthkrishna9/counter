@@ -16,6 +16,9 @@
     <!-- Required to fire alarms while device is idle (API 23+) -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
+    <!-- Vibration for mala completion -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
