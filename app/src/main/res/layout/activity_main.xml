@@ -7,27 +7,28 @@
     android:background="@drawable/bg_main_gradient"
     tools:context=".MainActivity">
 
+    <!-- ===== SCROLLABLE CONTENT (padded so nothing hides under the bottom bar) ===== -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingBottom="220dp"
+        android:clipToPadding="false">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center_horizontal"
-            android:paddingTop="48dp"
-            android:paddingBottom="40dp"
+            android:paddingTop="40dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp">
 
-            <!-- ===== HEADER ===== -->
+            <!-- HEADER -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp">
 
-                <!-- Centered title -->
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -58,7 +59,6 @@
 
                 </LinearLayout>
 
-                <!-- Reminder bell - top right -->
                 <ImageView
                     android:id="@+id/btnReminder"
                     android:layout_width="40dp"
@@ -79,29 +79,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/om_symbol"
-                android:textSize="22sp"
+                android:textSize="20sp"
                 android:textColor="@color/saffron"
-                android:layout_marginBottom="28dp" />
+                android:layout_marginBottom="20dp" />
 
-            <!-- ===== DEITY IMAGE SECTION ===== -->
+            <!-- DEITY IMAGE — compact 130dp -->
             <FrameLayout
-                android:layout_width="196dp"
-                android:layout_height="196dp"
-                android:layout_marginBottom="12dp">
+                android:layout_width="146dp"
+                android:layout_height="146dp"
+                android:layout_marginBottom="10dp">
 
-                <!-- Gold ring behind image -->
                 <View
-                    android:layout_width="196dp"
-                    android:layout_height="196dp"
+                    android:layout_width="146dp"
+                    android:layout_height="146dp"
                     android:background="@drawable/bg_deity_outer_ring"
                     android:layout_gravity="center" />
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardImage"
-                    android:layout_width="180dp"
-                    android:layout_height="180dp"
+                    android:layout_width="132dp"
+                    android:layout_height="132dp"
                     android:layout_gravity="center"
-                    app:cardCornerRadius="90dp"
+                    app:cardCornerRadius="66dp"
                     app:cardElevation="0dp"
                     app:strokeColor="@color/gold"
                     app:strokeWidth="2dp"
@@ -125,11 +124,11 @@
                             android:layout_height="match_parent"
                             android:orientation="vertical"
                             android:gravity="center"
-                            android:padding="16dp">
+                            android:padding="12dp">
 
                             <ImageView
-                                android:layout_width="48dp"
-                                android:layout_height="48dp"
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
                                 android:src="@drawable/ic_camera_gold"
                                 android:alpha="0.7"
                                 android:contentDescription="@null"/>
@@ -140,8 +139,8 @@
                                 android:text="@string/upload_deity"
                                 android:textAlignment="center"
                                 android:textColor="@color/text_secondary"
-                                android:textSize="12sp"
-                                android:layout_marginTop="8dp"/>
+                                android:textSize="10sp"
+                                android:layout_marginTop="6dp"/>
 
                         </LinearLayout>
 
@@ -151,13 +150,13 @@
 
             </FrameLayout>
 
-            <!-- Photo action buttons — API 24 safe padding -->
+            <!-- Photo action buttons -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center"
-                android:layout_marginBottom="28dp">
+                android:layout_marginBottom="20dp">
 
                 <TextView
                     android:id="@+id/btnChangePhoto"
@@ -165,16 +164,16 @@
                     android:layout_height="wrap_content"
                     android:text="@string/change_photo"
                     android:textColor="@color/gold"
-                    android:textSize="12sp"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
-                    android:paddingTop="6dp"
-                    android:paddingBottom="6dp"
+                    android:textSize="11sp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
                     android:background="@drawable/bg_action_button"
                     android:clickable="true"
                     android:focusable="true"/>
 
-                <View android:layout_width="16dp" android:layout_height="1dp" />
+                <View android:layout_width="12dp" android:layout_height="1dp" />
 
                 <TextView
                     android:id="@+id/btnClearImage"
@@ -182,25 +181,24 @@
                     android:layout_height="wrap_content"
                     android:text="@string/remove_photo"
                     android:textColor="@color/text_muted"
-                    android:textSize="12sp"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
-                    android:paddingTop="6dp"
-                    android:paddingBottom="6dp"
+                    android:textSize="11sp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
                     android:background="@drawable/bg_action_button"
                     android:clickable="true"
                     android:focusable="true"/>
 
             </LinearLayout>
 
-            <!-- ===== STATS ROW: Total | Streak | Malas ===== -->
+            <!-- STATS ROW: Total | Streak | Malas -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginBottom="20dp">
+                android:layout_marginBottom="18dp">
 
-                <!-- Total Chants -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -227,12 +225,10 @@
                         android:textColor="@color/gold_light"
                         android:textSize="22sp"
                         android:textStyle="bold"
-                        android:fontFamily="serif"
-                        tools:text="108" />
+                        android:fontFamily="serif" />
 
                 </LinearLayout>
 
-                <!-- Streak Days -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -251,8 +247,8 @@
                         android:gravity="center_vertical">
 
                         <ImageView
-                            android:layout_width="12dp"
-                            android:layout_height="12dp"
+                            android:layout_width="11dp"
+                            android:layout_height="11dp"
                             android:src="@drawable/ic_fire"
                             android:contentDescription="@null"
                             android:layout_marginEnd="3dp"/>
@@ -275,8 +271,7 @@
                         android:textColor="@color/saffron_light"
                         android:textSize="22sp"
                         android:textStyle="bold"
-                        android:fontFamily="serif"
-                        tools:text="7" />
+                        android:fontFamily="serif" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -287,7 +282,6 @@
 
                 </LinearLayout>
 
-                <!-- Malas Complete -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -314,18 +308,16 @@
                         android:textColor="@color/gold"
                         android:textSize="22sp"
                         android:textStyle="bold"
-                        android:fontFamily="serif"
-                        tools:text="2" />
+                        android:fontFamily="serif" />
 
                 </LinearLayout>
 
             </LinearLayout>
 
-            <!-- ===== MALA PROGRESS RING + COUNT ===== -->
+            <!-- MALA PROGRESS RING + COUNT (centrepiece) -->
             <FrameLayout
-                android:layout_width="260dp"
-                android:layout_height="260dp"
-                android:layout_marginBottom="32dp">
+                android:layout_width="220dp"
+                android:layout_height="220dp">
 
                 <com.mantracounter.app.MalaProgressView
                     android:id="@+id/malaProgressView"
@@ -352,10 +344,9 @@
                         android:layout_height="wrap_content"
                         android:text="0"
                         android:textColor="@color/text_primary"
-                        android:textSize="56sp"
+                        android:textSize="52sp"
                         android:textStyle="bold"
-                        android:fontFamily="serif"
-                        tools:text="54" />
+                        android:fontFamily="serif" />
 
                     <TextView
                         android:id="@+id/tvMalaProgress"
@@ -363,33 +354,84 @@
                         android:layout_height="wrap_content"
                         android:text="0 / 108"
                         android:textColor="@color/text_muted"
-                        android:textSize="13sp"
-                        tools:text="54 / 108" />
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
             </FrameLayout>
 
-            <!-- ===== MAIN COUNT BUTTON ===== -->
-            <FrameLayout
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:layout_marginBottom="28dp">
+        </LinearLayout>
 
-                <!-- Pulsing outer ring (animated in code) -->
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- ===== FIXED BOTTOM BAR — always visible ===== -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
+        android:background="@drawable/bg_bottom_bar"
+        android:paddingTop="12dp"
+        android:paddingBottom="16dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:elevation="12dp">
+
+        <!-- Chant button + flanking action buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <!-- Undo -1 -->
+            <LinearLayout
+                android:id="@+id/btnMinusOne"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="@drawable/bg_action_button"
+                android:clickable="true"
+                android:focusable="true">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/minus_one"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/undo_label"
+                    android:textColor="@color/text_muted"
+                    android:textSize="9sp" />
+
+            </LinearLayout>
+
+            <!-- Spacer -->
+            <View android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="1"/>
+
+            <!-- Main OM chant button with pulse ring -->
+            <FrameLayout
+                android:layout_width="152dp"
+                android:layout_height="152dp">
+
                 <View
                     android:id="@+id/viewPulseRing"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
+                    android:layout_width="152dp"
+                    android:layout_height="152dp"
                     android:background="@drawable/bg_pulse_ring"
                     android:layout_gravity="center"
                     android:alpha="0.5" />
 
-                <!-- Count button -->
                 <FrameLayout
                     android:id="@+id/btnCount"
-                    android:layout_width="172dp"
-                    android:layout_height="172dp"
+                    android:layout_width="130dp"
+                    android:layout_height="130dp"
                     android:layout_gravity="center"
                     android:background="@drawable/ripple_gold"
                     android:clickable="true"
@@ -405,8 +447,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="ॐ"
-                            android:textSize="52sp"
+                            android:text="&#2384;"
+                            android:textSize="44sp"
                             android:textColor="#0D0500"
                             android:fontFamily="serif" />
 
@@ -414,7 +456,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/tap_to_chant"
-                            android:textSize="11sp"
+                            android:textSize="10sp"
                             android:textColor="#661A0800"
                             android:letterSpacing="0.05"
                             android:layout_marginTop="2dp" />
@@ -425,74 +467,38 @@
 
             </FrameLayout>
 
-            <!-- ===== BOTTOM ACTIONS ===== -->
+            <!-- Spacer -->
+            <View android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="1"/>
+
+            <!-- Reset -->
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center">
+                android:id="@+id/btnReset"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="@drawable/bg_action_button"
+                android:clickable="true"
+                android:focusable="true">
 
-                <LinearLayout
-                    android:id="@+id/btnMinusOne"
-                    android:layout_width="0dp"
-                    android:layout_height="56dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:background="@drawable/bg_action_button"
-                    android:layout_marginEnd="10dp"
-                    android:clickable="true"
-                    android:focusable="true">
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_refresh_gold"
+                    android:contentDescription="@null" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/minus_one"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/undo_label"
-                        android:textColor="@color/text_muted"
-                        android:textSize="10sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/btnReset"
-                    android:layout_width="0dp"
-                    android:layout_height="56dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:background="@drawable/bg_action_button"
-                    android:layout_marginStart="10dp"
-                    android:clickable="true"
-                    android:focusable="true">
-
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/ic_refresh_gold"
-                        android:contentDescription="@null" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/reset"
-                        android:textColor="@color/text_muted"
-                        android:textSize="11sp"
-                        android:layout_marginTop="2dp" />
-
-                </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/reset"
+                    android:textColor="@color/text_muted"
+                    android:textSize="9sp"
+                    android:layout_marginTop="2dp" />
 
             </LinearLayout>
 
         </LinearLayout>
 
-    </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
 
 </FrameLayout>
